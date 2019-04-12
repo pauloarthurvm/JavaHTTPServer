@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package javahttpserver;
 
 import java.io.BufferedOutputStream;
@@ -43,11 +38,7 @@ public class JavaHTTPServer implements Runnable {
 		connect = c;
 	}
 
-	/**
-	 * @param args the command line arguments
-	 */
 	public static void main(String[] args) {
-		// TODO code application logic here
 		try {
 			ServerSocket serverConnect = new ServerSocket(PORT);
 			System.out.println("Server started.\nListening for connections on port: " + PORT + " ...\n");
