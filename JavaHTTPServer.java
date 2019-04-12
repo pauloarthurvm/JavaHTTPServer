@@ -8,6 +8,7 @@ package javahttpserver;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -99,13 +100,46 @@ public class JavaHTTPServer implements Runnable{
 					System.out.println("501 Not implemented: " + method + " method.");
 				}
 				
-				//	Return the supported file to the client
+				//	Return the not supported file to the client
+				File file = new File(WEB_ROOT, METHOD_NOT_SUPORTED);
+				int fileLenght = (int) file.length();
+				String contentMimeType = "text/html";
+				//	Red content to return to client
+				byte[] fileData = readFileData(file, fileLenght);
+				
+				//Send HTTP Header with data to client
+				System.out.println("HTTP/1.1.501 Not Implemented");
+				System.out.println("Server: Java HTTP Server from Paulo: 1.0");
+				System.out.println("Date: " + new Date());
+				System.out.println("Content-type: " + fileRequested.length());
+				System.out.println("");
+				System.out.flush();	//Flush character output stream buffer
+				//	File
+				dataOut.write(fileData, 0, fileLenght);
+				dataOut.flush();
+				
+				
+			}
+			else{
+				
 			}
 			
 			
 		} catch (IOException ioe) {
 			System.err.println("Server error: " + ioe);
 		}
+	}
+	
+	private byte[] readFileData(File file, int fileLenght) throws IOException{
+		FileInputStream fileIn = null;
+		byte[] fileData = new byte[fileLenght];
+		fileIn = new FileInputStream(file);
+		fileIn.read(fileData);
+		if(fileIn != null){
+			fileIn.close();
+		}
+		
+		return fileData;
 	}
 	
 }
