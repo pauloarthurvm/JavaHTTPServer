@@ -103,20 +103,21 @@ public class JavaHTTPServer implements Runnable {
 
 				//	Return the not supported file to the client
 				File file = new File(WEB_ROOT, METHOD_NOT_SUPORTED);
-				int fileLenght = (int) file.length();
+				int fileLength = (int) file.length();
 				String contentMimeType = "text/html";
 				//	Red content to return to client
-				byte[] fileData = readFileData(file, fileLenght);
+				byte[] fileData = readFileData(file, fileLength);
 
 				//Send HTTP Header with data to client
 				System.out.println("HTTP/1.1 501 Not Implemented");
 				System.out.println("Server: Java HTTP Server from Paulo: 1.0");
 				System.out.println("Date: " + new Date());
-				System.out.println("Content-type: " + fileRequested.length());
+				System.out.println("Content-type: " + contentMimeType);
+				System.out.println("Content-length: " + fileLength);
 				System.out.println("");
 				System.out.flush();	//Flush character output stream buffer
 				//	File
-				dataOut.write(fileData, 0, fileLenght);
+				dataOut.write(fileData, 0, fileLength);
 				dataOut.flush();
 
 			} else {	//	GET or HEAD method
@@ -204,13 +205,13 @@ public class JavaHTTPServer implements Runnable {
 		byte[] fileData = readFileData(file, fileLenght);
 
 		//Send HTTP Header with data to client
-		System.out.println("HTTP/1.1 404 File Not Found");
-		System.out.println("Server: Java HTTP Server from Paulo: 1.0");
-		System.out.println("Date: " + new Date());
-		System.out.println("Content-type: " + content);
-		System.out.println("Content-lenght: " + fileLenght);
-		System.out.println("");
-		System.out.flush();	//Flush character output stream buffer
+		out.println("HTTP/1.1 404 File Not Found");
+		out.println("Server: Java HTTP Server from Paulo: 1.0");
+		out.println("Date: " + new Date());
+		out.println("Content-type: " + content);
+		out.println("Content-lenght: " + fileLenght);
+		out.println("");
+		out.flush();	//Flush character output stream buffer
 
 		dataOut.write(fileData, 0, fileLenght);
 		dataOut.flush();
